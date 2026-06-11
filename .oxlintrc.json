@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "react", "react-perf"],
+  "categories": {
+    "correctness": "error",
+    "perf": "error"
+  },
+  "rules": {
+    "jsx-no-new-function-as-prop": "off",
+    "jsx-no-new-object-as-prop": "off"
+  },
+  "env": {
+    "builtin": true
+  }
+}
+
