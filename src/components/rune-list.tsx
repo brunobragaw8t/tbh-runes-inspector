@@ -8,6 +8,8 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useSelectedRunes } from "@/contexts/selected-runes-context";
+import { cn } from "@/lib/utils";
 
 interface RuneListProps {
   runes: Rune[];
@@ -23,6 +25,7 @@ function formatCost(n: number): string {
 }
 
 export function RuneList({ runes, treeData, saveData }: RuneListProps) {
+  const { toggleSelected, selectedRunesKeys } = useSelectedRunes();
   const runeByKey = new Map(runes.map((r) => [r.RuneKey, r]));
   const nodeByKey = new Map(treeData.nodes.map((n) => [n.key, n]));
   const parentByChild = new Map(treeData.edges.map((e) => [e.to, e.from]));
@@ -80,8 +83,13 @@ export function RuneList({ runes, treeData, saveData }: RuneListProps) {
         <SidebarGroupContent>
           <SidebarMenu>
             {incomplete.map((rune) => (
-              <SidebarMenuItem key={rune.key}>
-                <div className="flex items-start gap-2 px-2 py-1.5 text-sm">
+              <SidebarMenuItem key={rune.key} onClick={() => toggleSelected(rune.key)}>
+                <div
+                  className={cn(
+                    selectedRunesKeys.has(rune.key) && "bg-muted",
+                    "flex cursor-pointer items-start gap-2 px-2 py-1.5 text-sm select-none",
+                  )}
+                >
                   <img src={rune.icon} className="size-5 shrink-0 object-contain" />
 
                   <div className="grow">

@@ -18,6 +18,7 @@ import { AlertCircleIcon, Upload } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { RuneList } from "./components/rune-list";
 import { RuneTree } from "./components/rune-tree";
+import { SelectedRunesProvider } from "./contexts/selected-runes-context";
 
 function App() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -118,18 +119,20 @@ function App() {
   }
 
   return (
-    <SidebarProvider defaultOpen className="h-dvh">
-      <SidebarInset>
-        <RuneTree data={runeTreeData} runes={runes} saveData={saveData} />
-      </SidebarInset>
+    <SelectedRunesProvider>
+      <SidebarProvider defaultOpen className="h-dvh">
+        <SidebarInset>
+          <RuneTree data={runeTreeData} runes={runes} saveData={saveData} />
+        </SidebarInset>
 
-      <Sidebar side="right" collapsible="none">
-        <SidebarHeader className="border-b px-4 text-sm font-medium">
-          Incomplete runes
-        </SidebarHeader>
-        <RuneList runes={runes} treeData={runeTreeData} saveData={saveData} />
-      </Sidebar>
-    </SidebarProvider>
+        <Sidebar side="right" collapsible="none">
+          <SidebarHeader className="border-b px-4 text-sm font-medium">
+            Incomplete runes
+          </SidebarHeader>
+          <RuneList runes={runes} treeData={runeTreeData} saveData={saveData} />
+        </Sidebar>
+      </SidebarProvider>
+    </SelectedRunesProvider>
   );
 }
 

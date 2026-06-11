@@ -1,6 +1,7 @@
 import type { RuneTree } from "@/api/rune-tree";
 import type { Rune } from "@/api/runes";
 import type { ParsedSaveData } from "@/api/save";
+import { useSelectedRunes } from "@/contexts/selected-runes-context";
 
 interface RuneTreeProps {
   data: RuneTree;
@@ -62,6 +63,7 @@ export function RuneTree({ data, runes, saveData }: RuneTreeProps) {
   const viewBoxMinY = data.bounds.minY - viewBoxPadding;
 
   const dimmedNodes = getHiddenNodes(data, runes, saveData);
+  const { selectedRunesKeys } = useSelectedRunes();
 
   return (
     <svg
@@ -103,6 +105,10 @@ export function RuneTree({ data, runes, saveData }: RuneTreeProps) {
             style={{ cursor: "pointer" }}
             opacity={isDimmed ? 0.25 : undefined}
           >
+            {selectedRunesKeys.has(node.key) && (
+              <circle r={radius + 6} fill="none" className="stroke-primary" strokeWidth={3} />
+            )}
+
             <image
               href={node.icon}
               x={-radius + 4}
