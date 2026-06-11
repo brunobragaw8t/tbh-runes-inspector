@@ -12,4 +12,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      "/data": {
+        target: "https://taskbarhero.wiki",
+        changeOrigin: true,
+      },
+    },
+  },
 });

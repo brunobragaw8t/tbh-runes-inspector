@@ -45,7 +45,7 @@ const runeTreeSchema = z.object({
 type RuneTree = z.infer<typeof runeTreeSchema>;
 
 export async function getRuneTree(): Promise<RuneTree> {
-  const res = await fetch("https://taskbarhero.wiki/data/rune_tree.json");
+  const res = await fetch("/data/rune_tree.json");
   const json = await res.json();
   const parsed = runeTreeSchema.safeParse(json);
 

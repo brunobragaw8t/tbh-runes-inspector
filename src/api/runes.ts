@@ -24,7 +24,7 @@ const runeSchema = z.object({
 type Rune = z.infer<typeof runeSchema>;
 
 export async function getRunes(): Promise<Rune[]> {
-  const res = await fetch("https://taskbarhero.wiki/data/runes.json");
+  const res = await fetch("/data/runes.json");
   const json = await res.json();
   const parsed = z.array(runeSchema).safeParse(json);
 
