@@ -120,7 +120,7 @@ function App() {
   return (
     <SidebarProvider defaultOpen className="h-dvh">
       <SidebarInset>
-        <RuneTree data={runeTreeData} />
+        <RuneTree data={runeTreeData} runes={runes} saveData={saveData} />
       </SidebarInset>
 
       <Sidebar side="right" collapsible="none">
