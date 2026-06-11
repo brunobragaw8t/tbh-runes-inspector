@@ -42,7 +42,7 @@ const runeTreeSchema = z.object({
   edges: z.array(edgeSchema),
 });
 
-type RuneTree = z.infer<typeof runeTreeSchema>;
+export type RuneTree = z.infer<typeof runeTreeSchema>;
 
 export async function getRuneTree(): Promise<RuneTree> {
   const res = await fetch("/data/rune_tree.json");

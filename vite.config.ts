@@ -18,6 +18,10 @@ export default defineConfig({
         target: "https://taskbarhero.wiki",
         changeOrigin: true,
       },
+      "/game": {
+        target: "https://taskbarhero.wiki",
+        changeOrigin: true,
+      },
     },
   },
 });

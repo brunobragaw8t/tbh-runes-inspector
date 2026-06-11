@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/empty";
 import { Upload } from "lucide-react";
 import { useRef, useState } from "react";
+import { RuneTreeWrapper } from "./components/rune-tree-wrapper";
 
 function App() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,7 +30,7 @@ function App() {
   }
 
   return (
-    <div className="flex min-h-dvh items-start justify-center p-4">
+    <div className="flex flex-col gap-8">
       <Card className="mt-12 w-full max-w-lg">
         <CardHeader>
           <CardTitle>Task Bar Hero Runes Inspector</CardTitle>
@@ -60,9 +61,9 @@ function App() {
             </Empty>
           ) : (
             <div>
-              <p className="mb-2 text-sm text-muted-foreground">Loaded: {fileName}</p>
+              <p className="text-muted-foreground mb-2 text-sm">Loaded: {fileName}</p>
 
-              <pre className="max-h-96 overflow-auto rounded-lg bg-muted p-4 text-xs">
+              <pre className="bg-muted max-h-96 overflow-auto rounded-lg p-4 text-xs">
                 {JSON.stringify(saveData, null, 2)}
               </pre>
             </div>
@@ -71,6 +72,8 @@ function App() {
 
         <input ref={inputRef} type="file" accept=".es3" onChange={handleFile} className="hidden" />
       </Card>
+
+      <RuneTreeWrapper />
     </div>
   );
 }
