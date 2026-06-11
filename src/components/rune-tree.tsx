@@ -12,53 +12,51 @@ export function RuneTree({ data }: RuneTreeProps) {
   const viewBoxMinY = data.bounds.minY - viewBoxPadding;
 
   return (
-    <div className="h-dvh">
-      <svg
-        className="h-full w-full"
-        viewBox={`${viewBoxMinX} ${viewBoxMinY} ${viewBoxWidth} ${viewBoxHeight}`}
-        preserveAspectRatio="xMidYMid meet"
-      >
-        {data.edges.map((edge) => {
-          const from = data.nodes.find((n) => n.key === edge.from);
-          const to = data.nodes.find((n) => n.key === edge.to);
+    <svg
+      className="h-full w-full"
+      viewBox={`${viewBoxMinX} ${viewBoxMinY} ${viewBoxWidth} ${viewBoxHeight}`}
+      preserveAspectRatio="xMidYMid meet"
+    >
+      {data.edges.map((edge) => {
+        const from = data.nodes.find((n) => n.key === edge.from);
+        const to = data.nodes.find((n) => n.key === edge.to);
 
-          if (!from || !to) return null;
+        if (!from || !to) return null;
 
-          return (
-            <line
-              key={`${edge.from}-${edge.to}`}
-              x1={from.x}
-              y1={from.y}
-              x2={to.x}
-              y2={to.y}
-              className="stroke-muted"
-              strokeWidth={4}
+        return (
+          <line
+            key={`${edge.from}-${edge.to}`}
+            x1={from.x}
+            y1={from.y}
+            x2={to.x}
+            y2={to.y}
+            className="stroke-muted"
+            strokeWidth={4}
+          />
+        );
+      })}
+
+      {data.nodes.map((node) => {
+        const radius = 24;
+
+        return (
+          <g
+            key={node.key}
+            transform={`translate(${node.x},${node.y})`}
+            style={{ cursor: "pointer" }}
+          >
+            <image
+              href={node.icon}
+              x={-radius + 4}
+              y={-radius + 4}
+              width={radius * 2 - 8}
+              height={radius * 2 - 8}
+              preserveAspectRatio="xMidYMid meet"
+              className="pointer-events-none"
             />
-          );
-        })}
-
-        {data.nodes.map((node) => {
-          const radius = 24;
-
-          return (
-            <g
-              key={node.key}
-              transform={`translate(${node.x},${node.y})`}
-              style={{ cursor: "pointer" }}
-            >
-              <image
-                href={node.icon}
-                x={-radius + 4}
-                y={-radius + 4}
-                width={radius * 2 - 8}
-                height={radius * 2 - 8}
-                preserveAspectRatio="xMidYMid meet"
-                className="pointer-events-none"
-              />
-            </g>
-          );
-        })}
-      </svg>
-    </div>
+          </g>
+        );
+      })}
+    </svg>
   );
 }
