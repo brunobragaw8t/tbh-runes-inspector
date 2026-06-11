@@ -52,8 +52,16 @@ export function RuneTree({ data }: RuneTreeProps) {
               width={radius * 2 - 8}
               height={radius * 2 - 8}
               preserveAspectRatio="xMidYMid meet"
-              className="pointer-events-none"
             />
+
+            {/* <text */}
+            {/*   textAnchor="middle" */}
+            {/*   dominantBaseline="central" */}
+            {/*   fill="#ffffff" */}
+            {/*   className="pointer-events-none text-xl font-bold" */}
+            {/* > */}
+            {/*   {node.key} */}
+            {/* </text> */}
           </g>
         );
       })}

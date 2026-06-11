@@ -21,7 +21,7 @@ const runeSchema = z.object({
   slug: z.string(),
 });
 
-type Rune = z.infer<typeof runeSchema>;
+export type Rune = z.infer<typeof runeSchema>;
 
 export async function getRunes(): Promise<Rune[]> {
   const res = await fetch("/data/runes.json");

@@ -1,4 +1,8 @@
+import { getRuneTree, type RuneTree as RuneTreeData } from "@/api/rune-tree";
+import { getRunes, type Rune } from "@/api/runes";
 import { extractSaveData, type ParsedSaveData } from "@/api/save";
+import { LoadingSpinner } from "@/components/loading-spinner";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -10,14 +14,19 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Sidebar, SidebarHeader, SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Upload } from "lucide-react";
-import { useRef, useState } from "react";
+import { AlertCircleIcon, Upload } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { RuneList } from "./components/rune-list";
-import { RuneTreeWrapper } from "./components/rune-tree-wrapper";
+import { RuneTree } from "./components/rune-tree";
 
 function App() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [saveData, setSaveData] = useState<ParsedSaveData | null>(null);
+
+  const [runes, setRunes] = useState<Rune[] | null>(null);
+  const [runeTreeData, setRuneTreeData] = useState<RuneTreeData | null>(null);
+  const [runeDataLoading, setRuneDataLoading] = useState(false);
+  const [runeDataError, setRuneDataError] = useState<string | null>(null);
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -27,6 +36,27 @@ function App() {
     const data = await extractSaveData(file);
     setSaveData(data);
   }
+
+  useEffect(() => {
+    if (!saveData) return;
+
+    async function loadRuneData() {
+      setRuneDataLoading(true);
+      setRuneDataError(null);
+
+      try {
+        const [r, t] = await Promise.all([getRunes(), getRuneTree()]);
+        setRunes(r);
+        setRuneTreeData(t);
+      } catch (err) {
+        setRuneDataError(err instanceof Error ? err.message : "Unknown error");
+      }
+
+      setRuneDataLoading(false);
+    }
+
+    loadRuneData();
+  }, [saveData]);
 
   if (!saveData) {
     return (
@@ -72,16 +102,32 @@ function App() {
     );
   }
 
+  if (runeDataError) {
+    return (
+      <div className="flex h-dvh w-full items-center justify-center">
+        <Alert variant="destructive" className="w-full max-w-lg">
+          <AlertCircleIcon />
+          <AlertTitle>Failed to load game data: {runeDataError}</AlertTitle>
+        </Alert>
+      </div>
+    );
+  }
+
+  if (runeDataLoading || !runes || !runeTreeData) {
+    return <LoadingSpinner />;
+  }
+
   return (
-    <SidebarProvider defaultOpen>
+    <SidebarProvider defaultOpen className="h-dvh">
       <SidebarInset>
-        <RuneTreeWrapper />
+        <RuneTree data={runeTreeData} />
       </SidebarInset>
 
       <Sidebar side="right" collapsible="none">
-        <SidebarHeader className="text-sm font-medium">Next Runes</SidebarHeader>
-
-        <RuneList />
+        <SidebarHeader className="border-b px-4 text-sm font-medium">
+          Incomplete runes
+        </SidebarHeader>
+        <RuneList runes={runes} treeData={runeTreeData} saveData={saveData} />
       </Sidebar>
     </SidebarProvider>
   );
