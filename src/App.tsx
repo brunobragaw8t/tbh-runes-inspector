@@ -1,4 +1,4 @@
-import { extractSaveData, type SaveData } from "@/api/save";
+import { extractSaveData, type ParsedSaveData } from "@/api/save";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -15,7 +15,7 @@ import { useRef, useState } from "react";
 function App() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState("");
-  const [saveData, setSaveData] = useState<SaveData | null>(null);
+  const [saveData, setSaveData] = useState<ParsedSaveData | null>(null);
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
