@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/data/:path*", "destination": "https://taskbarhero.wiki/data/:path*" },
+    { "source": "/game/:path*", "destination": "https://taskbarhero.wiki/game/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
