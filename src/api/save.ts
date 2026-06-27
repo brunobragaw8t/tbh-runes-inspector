@@ -172,7 +172,7 @@ const playerSaveDataSchema = z.object({
   RuneSaveData: z.array(runeSaveDataSchema),
   inventorySaveDatas: z.array(inventorySaveDataSchema),
   stashSaveDatas: z.array(stashSaveDataSchema),
-  tradingStashSaveDatas: z.array(tradingStashSaveDataSchema),
+  tradingStashSaveDatas: z.array(tradingStashSaveDataSchema).default([]),
   cubeRecipeSaveDatas: z.array(cubeRecipeSaveDataSchema),
   cubeSaveLevelData: cubeSaveLevelDataSchema,
   itemSaveDatas: z.array(itemSaveDataSchema),
